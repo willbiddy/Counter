@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory android:title="Controls">
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="hardware_checkbox"
+            android:summary="Use hardware volume buttons to change counter."
+            android:title="Use Hardware Buttons" />
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="below_zero_checkbox"
+            android:summary="Let the counter go below zero."
+            android:title="Count below zero" />
+
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="vibrate_checkbox"
+            android:summary="Vibrate on counter change."
+            android:title="Vibrate" />
+
+        <ListPreference
+            android:defaultValue="25"
+            android:entries="@array/listArray"
+            android:entryValues="@array/listValues"
+            android:key="vibration_list"
+            android:summary="Choose how long your device vibrates when counter is changed."
+            android:title="Vibration Length" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Display">
+
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="animate_checkbox"
+            android:summary="Provide ticker animation for counter change."
+            android:title="Animate" />
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="screen_on_checkbox"
+            android:summary="Don't turn screen off when counter is open."
+            android:title="Keep Screen On" />
+
+<!--
+        <com.kizitonwose.colorpreference.ColorPreference
+            android:defaultValue="@color/primary"
+            android:key="color_preferences"
+            android:id="@+id/colorButton"
+            android:title="Choose a Color"
+            android:summary="Choose a new color scheme."
+            app:numColumns="4" />-->
+
+    </PreferenceCategory>
+
+
+
+</PreferenceScreen>

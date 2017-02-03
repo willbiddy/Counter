@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Tap Counter</string>
+    <string name="plus">+</string>
+    <string name="minus">-</string>
+
+    <string name="reset_question">Reset counter?</string>
+    <string name="reset">Reset</string>
+    <string name="cancel">Cancel</string>
+    <string name="settings">Settings</string>
+
+</resources>
