@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory android:title="Controls">
 
@@ -16,7 +15,6 @@
             android:summary="Let the counter go below zero."
             android:title="Count below zero" />
 
-
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="vibrate_checkbox"
@@ -24,9 +22,10 @@
             android:title="Vibrate" />
 
         <ListPreference
+            android:dependency="vibrate_checkbox"
             android:defaultValue="25"
-            android:entries="@array/listArray"
-            android:entryValues="@array/listValues"
+            android:entries="@array/vibrationLengths"
+            android:entryValues="@array/vibrationMilliseconds"
             android:key="vibration_list"
             android:summary="Choose how long your device vibrates when counter is changed."
             android:title="Vibration Length" />
@@ -34,7 +33,6 @@
     </PreferenceCategory>
 
     <PreferenceCategory android:title="Display">
-
 
         <CheckBoxPreference
             android:defaultValue="true"
@@ -48,17 +46,18 @@
             android:summary="Don't turn screen off when counter is open."
             android:title="Keep Screen On" />
 
-<!--
-        <com.kizitonwose.colorpreference.ColorPreference
-            android:defaultValue="@color/primary"
-            android:key="color_preferences"
-            android:id="@+id/colorButton"
-            android:title="Choose a Color"
-            android:summary="Choose a new color scheme."
-            app:numColumns="4" />-->
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="dark_theme_checkbox"
+            android:title="Use Dark Theme" />
+
+        <Preference
+            android:selectable="true"
+            android:enabled="true"
+            android:key="COLOR_PICKER_KEY"
+            android:title="Change Toolbar Color" />
 
     </PreferenceCategory>
-
 
 
 </PreferenceScreen>

@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="listArray">
+
+    <string-array name="vibrationLengths">
         <item>Short</item>
         <item>Medium</item>
         <item>Long</item>
         <item>Very Long</item>
-
     </string-array>
 
-    <string-array name="listValues">
+    <string-array name="vibrationMilliseconds">
+        <item>15</item>
         <item>25</item>
-        <item>50</item>
         <item>100</item>
         <item>200</item>
 

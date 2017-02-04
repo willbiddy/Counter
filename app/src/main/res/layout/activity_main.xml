@@ -59,22 +59,11 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true">
 
-        <!--        <TextView
-                    android:textColor="@android:color/black"
-                    android:textSize="150sp"
-                    android:id="@+id/counterTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    />
-
-                    -->
-
         <com.robinhood.ticker.TickerView
             android:id="@+id/tickerView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@android:color/black"
+            android:textColor="?valueColor"
             android:textSize="150sp"
             app:ticker_animationDuration="200"
             android:layout_gravity="center"

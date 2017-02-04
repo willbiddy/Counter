@@ -5,16 +5,12 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Build;
-import android.os.Vibrator;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.view.animation.FastOutLinearInInterpolator;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.os.Vibrator;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
@@ -25,17 +21,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.AnticipateInterpolator;
-import android.view.animation.BaseInterpolator;
-import android.view.animation.DecelerateInterpolator;
-import android.view.animation.LinearInterpolator;
-import android.view.animation.OvershootInterpolator;
-import android.view.animation.PathInterpolator;
 import android.widget.Button;
-import android.widget.TextView;
 
-import com.kizitonwose.colorpreference.ColorDialog;
-import com.kizitonwose.colorpreference.ColorShape;
 import com.robinhood.ticker.TickerUtils;
 import com.robinhood.ticker.TickerView;
 
@@ -48,93 +35,83 @@ public class MainActivity extends BaseActivity {
     private static final String APP_PREFERENCES = "PreferencesFile";
     private SharedPreferences sharedPreferences;
     private int counter;
-    TickerView counterText;
+    private TickerView counterText;
 
     private Toolbar toolbar;
 
-    private FloatingActionButton fab;
+    // for color picker
     private int toolbarColor;
-    private int fabColor;
-    List<String> colorPrimaryList;
-    List<String> colorPrimaryDarkList;
-    SharedPreferences preferences;
+    private List<String> colorPrimaryList;
+    private List<String> colorPrimaryDarkList;
+    private SharedPreferences preferences;
     private final String TOOLBAR_COLOR_KEY = "toolbar-key";
-    private final String FAB_COLOR_KEY = "fab-key";
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        super.onCreate(savedInstanceState);
+        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
+        if (sharedPreferences.getBoolean("dark_theme_checkbox", true)) {
+            setTheme(R.style.AppTheme_NoActionBar);
+        } else {
+            setTheme(R.style.AppTheme_NoActionBar);
+        }
+
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // toolbar
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         setTitle("Tap Counter");
 
+        // main counter number
         counterText = (TickerView) findViewById(R.id.tickerView);
         counterText.setCharacterList(TickerUtils.getDefaultNumberList());
         counterText.setAnimationInterpolator(new AccelerateDecelerateInterpolator());
 
-
-        // Restore preferences
+        // restore preferences
         sharedPreferences = getSharedPreferences(APP_PREFERENCES, 0);
         counter = sharedPreferences.getInt("counter_value", 0);
         counterText.setText(Integer.toString(counter));
 
         checkSettings();
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        setTitle("Extras sample");
-
         colorPrimaryList = Arrays.asList(getResources().getStringArray(R.array.color_choices));
         colorPrimaryDarkList = Arrays.asList(getResources().getStringArray(R.array.color_choices_700));
 
         preferences = android.preference.PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         toolbarColor = preferences.getInt(TOOLBAR_COLOR_KEY, ContextCompat.getColor(this, R.color.primary));
-        fabColor = preferences.getInt(FAB_COLOR_KEY, ContextCompat.getColor(this, R.color.accent));
 
         toolbar.setBackgroundColor(toolbarColor);
         updateStatusBarColor(toolbarColor);
-
-
-
     }
 
     @Override
     public void onResume() {
+
         super.onResume();
         checkSettings();
-
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        setTitle("Extras sample");
 
         colorPrimaryList = Arrays.asList(getResources().getStringArray(R.array.color_choices));
         colorPrimaryDarkList = Arrays.asList(getResources().getStringArray(R.array.color_choices_700));
 
         preferences = android.preference.PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         toolbarColor = preferences.getInt(TOOLBAR_COLOR_KEY, ContextCompat.getColor(this, R.color.primary));
-        fabColor = preferences.getInt(FAB_COLOR_KEY, ContextCompat.getColor(this, R.color.accent));
 
         toolbar.setBackgroundColor(toolbarColor);
         updateStatusBarColor(toolbarColor);
-
-
-
     }
 
     /**
-     * Check for settings changes
+     * Call methods to check for settings changes
      */
     private void checkSettings() {
         turnScreenOnOff();
         checkButtonStatus();
-        animationOnoff();
+        animationOnOff();
     }
-
 
     /**
      * Inflating main counter menu
@@ -142,7 +119,7 @@ public class MainActivity extends BaseActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.main_menu, menu);
+        inflater.inflate(R.menu.menu_main, menu);
         return true;
     }
 
@@ -168,18 +145,18 @@ public class MainActivity extends BaseActivity {
      * Showing dialog confirming counter reset
      */
     private void showResetConfirmationDialog() {
-        Dialog dialog = new AlertDialog.Builder(this)
-                .setMessage(getResources().getText(R.string.reset_question))
-                .setCancelable(false)
-                .setPositiveButton(getResources().getText(R.string.reset),
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                reset();
-                                checkButtonStatus();
-                            }
-                        })
-                .setNegativeButton(getResources().getText(R.string.cancel), null)
-                .create();
+        Dialog dialog =
+                new AlertDialog.Builder(this).setMessage(getResources().getText(R.string.reset_question))
+                        .setCancelable(false)
+                        .setPositiveButton(getResources().getText(R.string.reset),
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        reset();
+                                        checkButtonStatus();
+                                    }
+                                })
+                        .setNegativeButton(getResources().getText(R.string.cancel), null)
+                        .create();
         //noinspection ConstantConditions
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         dialog.show();
@@ -199,7 +176,6 @@ public class MainActivity extends BaseActivity {
         }
 
         checkButtonStatus();
-
     }
 
     /**
@@ -213,7 +189,6 @@ public class MainActivity extends BaseActivity {
             counter--;
             counterText.setText(Integer.toString(counter));
 
-
             if (vibrateOn()) {
                 Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
                 vibrator.vibrate(vibrationLength());
@@ -221,15 +196,13 @@ public class MainActivity extends BaseActivity {
         }
 
         checkButtonStatus();
-
-
     }
 
     /**
      * Checking if decrement button should
      * be enabled or disabled
      */
-    public void checkButtonStatus() {
+    private void checkButtonStatus() {
 
         // if can't go below zero
         // and counter is at or below zero
@@ -242,7 +215,6 @@ public class MainActivity extends BaseActivity {
         } else {
             decrementButton.setAlpha(1f);
         }
-
     }
 
     /**
@@ -275,7 +247,6 @@ public class MainActivity extends BaseActivity {
     private void reset() {
         counter = 0;
         counterText.setText(Integer.toString(counter));
-
     }
 
     @Override
@@ -287,6 +258,12 @@ public class MainActivity extends BaseActivity {
         SharedPreferences.Editor editor = settings.edit();
         editor.putInt("counter_value", counter);
         editor.apply();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        onStop();
     }
 
     /**
@@ -317,7 +294,6 @@ public class MainActivity extends BaseActivity {
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         return sharedPreferences.getBoolean("below_zero_checkbox", true);
-
     }
 
     /**
@@ -331,7 +307,6 @@ public class MainActivity extends BaseActivity {
         } else {
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         }
-
     }
 
     /**
@@ -350,49 +325,38 @@ public class MainActivity extends BaseActivity {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
         sp.getString("vibration_list", "1");
         return Integer.parseInt(sp.getString("vibration_list", "1"));
-
     }
 
     /**
      * Turns the animation
      */
-    private void animationOnoff() {
+    private void animationOnOff() {
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         if (sharedPreferences.getBoolean("animate_checkbox", true)) {
             counterText.setAnimationDuration(300);
-        }
-        else {
+        } else {
             counterText.setAnimationDuration(0);
         }
-
     }
 
-    public void decrementCounter(View view) {
+    public void decrementCounter(@SuppressWarnings("UnusedParameters") View view) {
         decrementCounter();
     }
 
-    public void incrementCounter(View view) {
+    public void incrementCounter(@SuppressWarnings("UnusedParameters") View view) {
         incrementCounter();
     }
-
-
-
 
     private void updateStatusBarColor(int newColor) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             String newColorString = getColorHex(newColor);
-            getWindow().setStatusBarColor((Color.parseColor(colorPrimaryDarkList.get(colorPrimaryList.indexOf(newColorString)))));
+            getWindow().setStatusBarColor(
+                    (Color.parseColor(colorPrimaryDarkList.get(colorPrimaryList.indexOf(newColorString)))));
         }
     }
 
     private String getColorHex(int color) {
         return String.format("#%02x%02x%02x", Color.red(color), Color.green(color), Color.blue(color));
     }
-
-
-
-
-
-
 }
