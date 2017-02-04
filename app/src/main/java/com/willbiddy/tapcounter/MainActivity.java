@@ -36,8 +36,14 @@ public class MainActivity extends BaseActivity {
     private SharedPreferences sharedPreferences;
     private int counter;
     private TickerView counterText;
+    private static final int MIN_VALUE = 0;
 
     private Toolbar toolbar;
+
+    // for dark theme
+    private static final String PREF_THEME = "theme";
+    private static final String THEME_DARK = "dark";
+    private static final String THEME_LIGHT = "light";
 
     // for color picker
     private int toolbarColor;
@@ -49,14 +55,9 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
+        sharedPreferences = getSharedPreferences(APP_PREFERENCES, 0);
+        preferences = android.preference.PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-
-        if (sharedPreferences.getBoolean("dark_theme_checkbox", true)) {
-            setTheme(R.style.AppTheme_NoActionBar);
-        } else {
-            setTheme(R.style.AppTheme_NoActionBar);
-        }
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -72,7 +73,6 @@ public class MainActivity extends BaseActivity {
         counterText.setAnimationInterpolator(new AccelerateDecelerateInterpolator());
 
         // restore preferences
-        sharedPreferences = getSharedPreferences(APP_PREFERENCES, 0);
         counter = sharedPreferences.getInt("counter_value", 0);
         counterText.setText(Integer.toString(counter));
 
@@ -81,11 +81,12 @@ public class MainActivity extends BaseActivity {
         colorPrimaryList = Arrays.asList(getResources().getStringArray(R.array.color_choices));
         colorPrimaryDarkList = Arrays.asList(getResources().getStringArray(R.array.color_choices_700));
 
-        preferences = android.preference.PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         toolbarColor = preferences.getInt(TOOLBAR_COLOR_KEY, ContextCompat.getColor(this, R.color.primary));
 
         toolbar.setBackgroundColor(toolbarColor);
         updateStatusBarColor(toolbarColor);
+
+
     }
 
     @Override
@@ -185,7 +186,7 @@ public class MainActivity extends BaseActivity {
 
         // if counter can go below zero, or
         // can't go below zero and counter is > 0
-        if ((canGoBelowZero()) || (!canGoBelowZero() && counter > 0)) {
+        if ((canGoBelowZero()) || (!canGoBelowZero() && counter > MIN_VALUE)) {
             counter--;
             counterText.setText(Integer.toString(counter));
 
@@ -359,4 +360,6 @@ public class MainActivity extends BaseActivity {
     private String getColorHex(int color) {
         return String.format("#%02x%02x%02x", Color.red(color), Color.green(color), Color.blue(color));
     }
+
+
 }

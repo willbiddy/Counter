@@ -7,8 +7,8 @@ android {
         applicationId "com.willbiddy.tapcounter"
         minSdkVersion 16
         targetSdkVersion 25
-        versionCode 1
-        versionName "1.0"
+        versionCode 2
+        versionName "1.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -40,4 +40,5 @@ dependencies {
 
     compile 'com.robinhood.ticker:ticker:1.1.1'
     compile 'com.github.kizitonwose.colorpreference:core:1.0.2'
+    compile 'com.github.stkent:amplify:1.5.0'
 }

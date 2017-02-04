@@ -7,4 +7,7 @@
     <string name="reset">Reset</string>
     <string name="cancel">Cancel</string>
 
+    <string name="description">Tap Counter is a free and open source tally counter app. Useful for counting people, votes, and inventory.</string>
+
+
 </resources>

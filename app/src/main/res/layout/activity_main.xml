@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/mainLayout"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
@@ -19,7 +20,6 @@
 
     </android.support.design.widget.AppBarLayout>
 
-
     <Button
         android:id="@+id/incrementButton"
         android:layout_width="match_parent"
@@ -31,7 +31,7 @@
         android:layout_marginRight="16dp"
         android:onClick="incrementCounter"
         android:text="@string/plus"
-        android:textColor="@android:color/black"
+        android:textColor="?valueColor"
         android:textSize="100sp" />
 
     <Button
@@ -46,7 +46,7 @@
         android:layout_marginRight="16dp"
         android:onClick="decrementCounter"
         android:text="@string/minus"
-        android:textColor="@android:color/black"
+        android:textColor="?valueColor"
         android:textSize="60sp" />
 
     <FrameLayout

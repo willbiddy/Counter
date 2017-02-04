@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <PreferenceCategory android:title="Controls">
 
@@ -46,16 +47,27 @@
             android:summary="Don't turn screen off when counter is open."
             android:title="Keep Screen On" />
 
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="dark_theme_checkbox"
-            android:title="Use Dark Theme" />
-
         <Preference
             android:selectable="true"
             android:enabled="true"
             android:key="COLOR_PICKER_KEY"
             android:title="Change Toolbar Color" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Other">
+
+        <Preference
+            android:selectable="true"
+            android:enabled="true"
+            android:key="RATE_PLAY_STORE"
+            android:title="Rate App on the Play Store" />
+
+        <Preference
+            android:selectable="true"
+            android:enabled="true"
+            android:key="FORK_GITHUB"
+            android:title="Fork Repository on GitHub" />
 
     </PreferenceCategory>
 
