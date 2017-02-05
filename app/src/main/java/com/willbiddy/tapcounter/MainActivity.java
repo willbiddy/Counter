@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Vibrator;
+import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.preference.PreferenceManager;
@@ -23,6 +24,8 @@ import android.view.WindowManager;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.Button;
 
+import com.github.stkent.amplify.prompt.DefaultLayoutPromptView;
+import com.github.stkent.amplify.tracking.Amplify;
 import com.robinhood.ticker.TickerUtils;
 import com.robinhood.ticker.TickerView;
 
@@ -40,11 +43,6 @@ public class MainActivity extends BaseActivity {
 
     private Toolbar toolbar;
 
-    // for dark theme
-    private static final String PREF_THEME = "theme";
-    private static final String THEME_DARK = "dark";
-    private static final String THEME_LIGHT = "light";
-
     // for color picker
     private int toolbarColor;
     private List<String> colorPrimaryList;
@@ -52,8 +50,9 @@ public class MainActivity extends BaseActivity {
     private SharedPreferences preferences;
     private final String TOOLBAR_COLOR_KEY = "toolbar-key";
 
+    @SuppressWarnings("ConstantConditions")
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable final Bundle savedInstanceState) {
 
         sharedPreferences = getSharedPreferences(APP_PREFERENCES, 0);
         preferences = android.preference.PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
@@ -86,8 +85,15 @@ public class MainActivity extends BaseActivity {
         toolbar.setBackgroundColor(toolbarColor);
         updateStatusBarColor(toolbarColor);
 
+        // Amplify
+        if (savedInstanceState == null) {
+            DefaultLayoutPromptView promptView = (DefaultLayoutPromptView) findViewById(R.id.prompt_view);
+            Amplify.getSharedInstance().promptIfReady(promptView);
+            promptView.bringToFront();
+        }
 
     }
+
 
     @Override
     public void onResume() {
@@ -134,7 +140,7 @@ public class MainActivity extends BaseActivity {
                 showResetConfirmationDialog();
                 return true;
             case R.id.menu_settings:
-                Intent myIntent = new Intent(MainActivity.this, MyPreferencesActivity.class);
+                Intent myIntent = new Intent(MainActivity.this, PreferencesActivity.class);
                 MainActivity.this.startActivity(myIntent);
                 return true;
             default:

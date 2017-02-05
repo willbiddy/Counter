@@ -9,14 +9,6 @@ import android.preference.PreferenceFragment;
 
 public class SettingsFragment extends PreferenceFragment {
 
-    private static final String KEY_THEME = "theme";
-    private static final String THEME_DARK = "dark";
-    private static final String THEME_LIGHT = "light";
-
-    private SharedPreferences mSharedPref;
-    private String mTheme;
-    private SettingsFragment fragment;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
@@ -29,11 +21,11 @@ public class SettingsFragment extends PreferenceFragment {
             @Override
             public boolean onPreferenceClick(Preference preference) {
 
-                // Opening MyPreferencesActivity,
+                // Opening PreferencesActivity,
                 // which calls onNewIntent(Intent intent)
                 // and starts showColorDialog
 
-                Intent intent = new Intent(getActivity(), MyPreferencesActivity.class);
+                Intent intent = new Intent(getActivity(), PreferencesActivity.class);
                 intent.putExtra("methodName", "showColorDialog");
                 startActivity(intent);
 
@@ -71,7 +63,6 @@ public class SettingsFragment extends PreferenceFragment {
                 return true;
             }
         });
-
 
 
 

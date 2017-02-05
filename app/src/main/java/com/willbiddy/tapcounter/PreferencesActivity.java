@@ -18,8 +18,9 @@ import com.kizitonwose.colorpreference.ColorShape;
 import java.util.Arrays;
 import java.util.List;
 
-public class MyPreferencesActivity extends BaseActivity
+public class PreferencesActivity extends BaseActivity
         implements ColorDialog.OnColorSelectedListener {
+
 
     private Toolbar toolbar;
     private int toolbarColor;
@@ -33,7 +34,8 @@ public class MyPreferencesActivity extends BaseActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_color_picker);
+        setContentView(R.layout.activity_preferences);
+
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -58,6 +60,7 @@ public class MyPreferencesActivity extends BaseActivity
         getFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, new SettingsFragment())
                 .commit();
+
     }
 
     /**

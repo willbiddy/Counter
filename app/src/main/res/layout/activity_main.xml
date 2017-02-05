@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/mainLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/mainLayout"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
+
     <android.support.design.widget.AppBarLayout
+        android:id="@+id/app_bar_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay">
@@ -19,6 +21,14 @@
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
     </android.support.design.widget.AppBarLayout>
+
+    <com.github.stkent.amplify.prompt.DefaultLayoutPromptView
+        app:prompt_view_background_color="@color/accent"
+        app:prompt_view_thanks_display_time_ms="1000"
+        android:id="@+id/prompt_view"
+        android:layout_below="@id/app_bar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <Button
         android:id="@+id/incrementButton"
@@ -49,6 +59,7 @@
         android:textColor="?valueColor"
         android:textSize="60sp" />
 
+
     <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -59,17 +70,23 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true">
 
+
         <com.robinhood.ticker.TickerView
             android:id="@+id/tickerView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:textColor="?valueColor"
             android:textSize="150sp"
-            app:ticker_animationDuration="200"
-            android:layout_gravity="center"
+            app:ticker_animationDuration="200" />
 
-            />
 
     </FrameLayout>
+
+
+
+
+
+
 
 </RelativeLayout>
