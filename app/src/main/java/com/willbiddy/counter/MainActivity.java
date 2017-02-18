@@ -1,4 +1,4 @@
-package com.willbiddy.tapcounter;
+package com.willbiddy.counter;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -36,27 +36,25 @@ public class MainActivity extends BaseActivity {
 
     // variables
     private static final String APP_PREFERENCES = "PreferencesFile";
-    private SharedPreferences sharedPreferences;
+    private static final int MIN_VALUE = 0;
+    private final String TOOLBAR_COLOR_KEY = "toolbar-key";
     private int counter;
     private TickerView counterText;
-    private static final int MIN_VALUE = 0;
-
     private Toolbar toolbar;
-
     // for color picker
     private int toolbarColor;
     private List<String> colorPrimaryList;
     private List<String> colorPrimaryDarkList;
+    // stores all of the settings and the counter value
     private SharedPreferences preferences;
-    private final String TOOLBAR_COLOR_KEY = "toolbar-key";
 
     @SuppressWarnings("ConstantConditions")
     @Override
     protected void onCreate(@Nullable final Bundle savedInstanceState) {
 
-        sharedPreferences = getSharedPreferences(APP_PREFERENCES, 0);
+        preferences = getSharedPreferences(APP_PREFERENCES, 0);
         preferences = android.preference.PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -64,7 +62,7 @@ public class MainActivity extends BaseActivity {
         // toolbar
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        setTitle("Tap Counter");
+        setTitle("Counter");
 
         // main counter number
         counterText = (TickerView) findViewById(R.id.tickerView);
@@ -72,7 +70,7 @@ public class MainActivity extends BaseActivity {
         counterText.setAnimationInterpolator(new AccelerateDecelerateInterpolator());
 
         // restore preferences
-        counter = sharedPreferences.getInt("counter_value", 0);
+        counter = preferences.getInt("counter_value", 0);
         counterText.setText(Integer.toString(counter));
 
         checkSettings();
@@ -97,6 +95,10 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void onResume() {
+
+        // restore preferences
+        counter = preferences.getInt("counter_value", 0);
+        counterText.setText(Integer.toString(counter));
 
         super.onResume();
         checkSettings();
@@ -183,6 +185,7 @@ public class MainActivity extends BaseActivity {
         }
 
         checkButtonStatus();
+
     }
 
     /**
@@ -203,6 +206,12 @@ public class MainActivity extends BaseActivity {
         }
 
         checkButtonStatus();
+
+        // Store data on activity stop
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putInt("counter_value", counter);
+        editor.apply();
+
     }
 
     /**
@@ -261,8 +270,7 @@ public class MainActivity extends BaseActivity {
         super.onStop();
 
         // Store data on activity stop
-        SharedPreferences settings = getSharedPreferences(APP_PREFERENCES, 0);
-        SharedPreferences.Editor editor = settings.edit();
+        SharedPreferences.Editor editor = preferences.edit();
         editor.putInt("counter_value", counter);
         editor.apply();
     }
@@ -279,8 +287,8 @@ public class MainActivity extends BaseActivity {
      */
     private boolean useHardwareButtons() {
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        return sharedPreferences.getBoolean("hardware_checkbox", true);
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        return preferences.getBoolean("hardware_checkbox", true);
     }
 
     /**
@@ -289,8 +297,8 @@ public class MainActivity extends BaseActivity {
      */
     private boolean keepScreenOnEvaluate() {
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        return sharedPreferences.getBoolean("screen_on_checkbox", true);
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        return preferences.getBoolean("screen_on_checkbox", true);
     }
 
     /**
@@ -299,8 +307,8 @@ public class MainActivity extends BaseActivity {
      */
     private boolean canGoBelowZero() {
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        return sharedPreferences.getBoolean("below_zero_checkbox", true);
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        return preferences.getBoolean("below_zero_checkbox", true);
     }
 
     /**
@@ -321,17 +329,17 @@ public class MainActivity extends BaseActivity {
      */
     private boolean vibrateOn() {
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        return sharedPreferences.getBoolean("vibrate_checkbox", true);
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        return preferences.getBoolean("vibrate_checkbox", true);
     }
 
     /**
      * Returns length for the vibration, based off of vibration_list in preferences.xml
      */
     private int vibrationLength() {
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
-        sp.getString("vibration_list", "1");
-        return Integer.parseInt(sp.getString("vibration_list", "1"));
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        preferences.getString("vibration_list", "1");
+        return Integer.parseInt(preferences.getString("vibration_list", "1"));
     }
 
     /**
@@ -339,8 +347,8 @@ public class MainActivity extends BaseActivity {
      */
     private void animationOnOff() {
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        if (sharedPreferences.getBoolean("animate_checkbox", true)) {
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        if (preferences.getBoolean("animate_checkbox", true)) {
             counterText.setAnimationDuration(300);
         } else {
             counterText.setAnimationDuration(0);

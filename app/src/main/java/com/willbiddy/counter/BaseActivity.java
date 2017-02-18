@@ -1,4 +1,4 @@
-package com.willbiddy.tapcounter;
+package com.willbiddy.counter;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

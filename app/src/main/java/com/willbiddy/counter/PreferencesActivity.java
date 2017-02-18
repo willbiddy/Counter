@@ -1,4 +1,4 @@
-package com.willbiddy.tapcounter;
+package com.willbiddy.counter;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -22,14 +22,14 @@ public class PreferencesActivity extends BaseActivity
         implements ColorDialog.OnColorSelectedListener {
 
 
+    private final String TOOLBAR_COLOR_KEY = "toolbar-key";
+    private final String FAB_COLOR_KEY = "fab-key";
     private Toolbar toolbar;
     private int toolbarColor;
     private int fabColor;
     private List<String> colorPrimaryList;
     private List<String> colorPrimaryDarkList;
     private SharedPreferences preferences;
-    private final String TOOLBAR_COLOR_KEY = "toolbar-key";
-    private final String FAB_COLOR_KEY = "fab-key";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
